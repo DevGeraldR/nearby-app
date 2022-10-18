@@ -51,7 +51,7 @@ This nearby app enables all users to instantly find or locate a specific informa
 
 ## Installation
 ***
-1. Open CMD or Terminal on you text editor
+1. Open CMD or Terminal on your text editor
 2. Run this Command to copy this repository
 ```
 $ git clone https://github.com/DevGeraldR/nearby-app.git
