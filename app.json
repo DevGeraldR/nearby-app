@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "Nearest",
+    "slug": "Nearest",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./main-container/app-asset/Nearby_Official_Logo.png",
+    "scheme": "com.nearby",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./main-container/app-asset/Nearby_Official_Logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "expo-notifications": {
+      "icon": "./main-container/app-asset/Nearby_Official_Logo.png",
+      "color": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.nearby",
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
