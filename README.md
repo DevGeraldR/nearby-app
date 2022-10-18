@@ -55,7 +55,7 @@ A little intro about the installation.
 1. Open CMD or Terminal on you text editor
 2. Run this Command to copy this repository
 ```
-$ git clone https://github.com/DevGeraldR/nearby-app-expo-firebase.git
+$ git clone https://github.com/DevGeraldR/nearby-app.git
 ```
 3. Make sure that you are in the location of the project. If not, you can go to the correct directory by running this command
 ```
