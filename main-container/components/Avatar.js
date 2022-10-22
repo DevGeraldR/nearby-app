@@ -12,7 +12,7 @@ export default function Avatar({ size, user }) {
         height: size,
         borderRadius: size,
       }}
-      resizeMode='cover'
+      resizeMode="cover"
     />
   );
 }

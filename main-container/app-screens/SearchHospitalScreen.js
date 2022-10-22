@@ -9,14 +9,8 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
-import {
-  arrayUnion,
-  collection,
-  doc,
-  getDocs,
-  updateDoc,
-} from "firebase/firestore";
+import { FlatList } from "react-native-gesture-handler";
+import { collection, getDocs } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase";
 import * as Linking from "expo-linking";
 import * as Location from "expo-location";
@@ -32,7 +26,7 @@ const SearchHospitalScreen = ({ navigation }) => {
   const [userLongitude, setUserLongitude] = useState(null);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const { rooms, selectedRoom, setSelectedRoom } = useContext(Context);
+  const { rooms } = useContext(Context);
   const [selected, setSelected] = useState(null);
   const user = auth.currentUser;
 
@@ -118,25 +112,6 @@ const SearchHospitalScreen = ({ navigation }) => {
     }
   };
 
-  //To navigage to the message
-  const goToMessage = async () => {
-    //To add the parcipant to the participan array
-    let room;
-    room = rooms.find((room) =>
-      room.participantsArray.includes(selectedRoom.adminEmail)
-    );
-    navigation.navigate("message", { selectedRoom, room });
-    //To add the participant to the read receipt if there is already a room to mark that the user already read the message
-    if (room) {
-      const roomRef = doc(db, "rooms", room.id);
-      if (!room.readReceipt.includes(user.email)) {
-        await updateDoc(roomRef, {
-          readReceipt: arrayUnion(user.email),
-        });
-      }
-    }
-  };
-
   return (
     <SafeAreaView style={tw`bg-white flex-1`}>
       <TextInput
@@ -146,8 +121,8 @@ const SearchHospitalScreen = ({ navigation }) => {
           setSelected(false);
         }}
         value={search}
-        underlineColorAndroid='transparent'
-        placeholder='Search Here'
+        underlineColorAndroid="transparent"
+        placeholder="Search Here"
         editable={!loading}
       />
 
@@ -156,14 +131,13 @@ const SearchHospitalScreen = ({ navigation }) => {
       ) : (
         <>
           <FlatList
-            keyboardShouldPersistTaps='handled'
+            keyboardShouldPersistTaps="handled"
             data={!search ? filteredList : searchList}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
               <TouchableOpacity
                 onPress={() => {
                   setSelected(item);
-                  setSelectedRoom(item);
                 }}
                 style={tw`flex-row justify-between items-center pr-2 ${
                   item.id === selected?.id ? "bg-gray-200" : " "
@@ -215,11 +189,11 @@ const SearchHospitalScreen = ({ navigation }) => {
               selected ? null : "bg-gray-300"
             }`}
           >
-            <EvilIcons name='location' size={40} color='red' />
+            <EvilIcons name="location" size={40} color="red" />
             <Text style={tw` text-lg`}>{selected?.displayName} Location</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={goToMessage}
+            onPress={() => navigation.navigate("message", { selected })}
             disabled={!selected}
             style={tw`flex-row bg-[#b7d2b6] py-1 m-0.9 ${
               selected ? null : "bg-gray-300"
@@ -227,9 +201,9 @@ const SearchHospitalScreen = ({ navigation }) => {
           >
             <AntDesign
               style={tw`pl-1`}
-              name='profile'
+              name="profile"
               size={30}
-              color='black'
+              color="black"
             />
             <Text style={tw` text-lg`}> Message {selected?.displayName}</Text>
           </TouchableOpacity>
@@ -245,7 +219,7 @@ const SearchHospitalScreen = ({ navigation }) => {
               selected ? null : "bg-gray-300"
             }`}
           >
-            <AntDesign style={tw`pl-1`} name='form' size={30} color='black' />
+            <AntDesign style={tw`pl-1`} name="form" size={30} color="black" />
             <Text style={tw` text-lg text-center`}>Edit My Hospital</Text>
           </TouchableOpacity>
         </View>

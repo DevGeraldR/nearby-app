@@ -1,11 +1,4 @@
 // @refresh reset
-import {
-  ActivityIndicator,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
 import React, {
   useCallback,
   useContext,
@@ -25,6 +18,7 @@ import {
   onSnapshot,
   setDoc,
   updateDoc,
+  arrayUnion,
 } from "firebase/firestore";
 import { Bubble, GiftedChat, InputToolbar } from "react-native-gifted-chat";
 import { Context } from "../context/Context";
@@ -34,18 +28,20 @@ import { getUserB } from "./MessagesScreen";
 const MessageScreen = () => {
   const route = useRoute(Context);
   const randomId = useMemo(() => nanoid(), []);
-  const { selectedRoom, rooms } = useContext(Context);
+  const { rooms } = useContext(Context);
   const [messages, setMessages] = useState([]);
   const user = auth.currentUser;
-  const userB = selectedRoom;
+  const place = route.params.selected;
 
   const senderUser = {
     name: user.displayName,
     _id: user.uid,
     avatar: user.photoURL,
   };
+  const room = route.params.room
+    ? route.params.room
+    : rooms.find((room) => room.participantsArray.includes(place.adminEmail));
 
-  const room = route.params.room;
   const roomId = room ? room.id : randomId;
 
   const roomRef = doc(db, "rooms", roomId);
@@ -59,21 +55,28 @@ const MessageScreen = () => {
           email: user.email,
           photoURL: user.photoURL,
         };
-        const userBData = {
-          displayName: userB.displayName, //Place Displayname
-          adminName: userB.adminName,
-          adminEmail: userB.adminEmail,
-          photoURL: userB.photoURL,
+        const placeData = {
+          displayName: place.displayName, //Place Displayname
+          adminName: place.adminName,
+          adminEmail: place.adminEmail,
+          photoURL: place.photoURL,
         };
         const roomData = {
-          participants: [currUserData, userBData],
-          participantsArray: [user.email, userB.adminEmail],
+          participants: [currUserData, placeData],
+          participantsArray: [user.email, place.adminEmail],
           readReceipt: [user.email],
         };
         try {
           await setDoc(roomRef, roomData);
         } catch (error) {
           console.log(error);
+        }
+      } else {
+        //To add the current user to the reader Reaciept
+        if (!room.readReceipt.includes(user.email)) {
+          await updateDoc(roomRef, {
+            readReceipt: arrayUnion(user.email),
+          });
         }
       }
     })();
@@ -97,31 +100,22 @@ const MessageScreen = () => {
     return () => unsubscribe();
   }, []);
 
-  const sendPushNotification = async (text) => {
-    //To get the other user that will receive the notification
-    let receiver, r;
-    if (room) {
-      //If there is already a room assign to our room
-      r = room;
-    } else {
-      //If there is still no room find a room
-      r = rooms.find((room) =>
-        room.participantsArray.includes(selectedRoom.adminEmail)
-      );
-    }
-    receiver = getUserB(r.participants);
-    //if a hospital it should be admin name but if user it is display name
-    const name = receiver.adminName ? receiver.adminName : receiver.displayName;
+  const sendPushNotification = async () => {
+    //To get the other user that will receive the notification, if there is no message then the receiver will be the facility/place
+    const receiver = getUserB(room.participants);
+    //if sending to a hospital it should be admin name but if customer it is display name
+    const receiverName = receiver.adminName
+      ? receiver.adminName
+      : receiver.displayName;
     //Read the data that match the name of the reciever
-    const docRef = doc(db, "Users", name);
+    const docRef = doc(db, "Users", receiverName);
     const docSnap = await getDoc(docRef);
-
+    //Send the message
     const message = {
       to: docSnap.data().pushToken,
       sound: "default",
-      title: user.displayName,
-      body: text,
-      data: { someData: "goes here" },
+      title: "You have a new message",
+      body: "",
     };
 
     await fetch("https://exp.host/--/api/v2/push/send", {
@@ -143,6 +137,7 @@ const MessageScreen = () => {
     },
     [messages]
   );
+
   async function onSend(messages = []) {
     //To delete the other user from readReceipt after sending message
     const userB =
@@ -158,7 +153,7 @@ const MessageScreen = () => {
         readReceipt: arrayRemove(userB ? userB : " "),
       })
     );
-    sendPushNotification(lastMessage.text);
+    sendPushNotification();
     await Promise.all(writes);
   }
 

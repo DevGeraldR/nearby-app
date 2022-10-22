@@ -6,8 +6,7 @@ import Avatar from "./Avatar";
 
 export default function MessageHeader() {
   const route = useRoute();
-  const { selectedRoom } = useContext(Context);
-  const user = route.params.user ? route.params.user : selectedRoom;
+  const user = route.params.user ? route.params.user : route.params.selected;
   return (
     <View style={{ flexDirection: "row", marginLeft: -70 }}>
       <View>

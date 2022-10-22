@@ -5,7 +5,6 @@ export const Context = createContext();
 export const ContextProvider = ({ children }) => {
   const [isLoged, setIsLoged] = useState(false);
   const [rooms, setRooms] = useState([]);
-  const [selectedRoom, setSelectedRoom] = useState(null);
   const [badgeCounter, setBadgeCounter] = useState(null);
 
   return (
@@ -15,8 +14,6 @@ export const ContextProvider = ({ children }) => {
         setIsLoged,
         rooms,
         setRooms,
-        selectedRoom,
-        setSelectedRoom,
         badgeCounter,
         setBadgeCounter,
       }}

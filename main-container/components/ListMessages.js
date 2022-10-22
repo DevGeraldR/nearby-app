@@ -4,8 +4,6 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Grid, Row, Col } from "react-native-easy-grid";
 import Avatar from "./Avatar";
 
-import { arrayUnion, doc, updateDoc } from "firebase/firestore";
-
 import { auth, db } from "../firebase/firebase";
 
 export default function ListMessages({ description, user, time, room }) {
@@ -20,21 +18,13 @@ export default function ListMessages({ description, user, time, room }) {
     } else {
       setUnRead(true);
     }
-  }, [room]);
-
-  const roomRef = doc(db, "rooms", room.id);
-  const goToMessage = async () => {
-    navigation.navigate("message", { user, room });
-    //To add the current user to the reader Reaciept
-    if (!room.readReceipt.includes(currentUser.email)) {
-      await updateDoc(roomRef, {
-        readReceipt: arrayUnion(currentUser.email),
-      });
-    }
-  };
+  }, [room.readReceipt]);
 
   return (
-    <TouchableOpacity style={{ height: 80 }} onPress={goToMessage}>
+    <TouchableOpacity
+      style={{ height: 80 }}
+      onPress={() => navigation.navigate("message", { user, room })}
+    >
       {unRead ? (
         <Grid style={{ maxHeight: 80, backgroundColor: "#b7d2b6" }}>
           <Col

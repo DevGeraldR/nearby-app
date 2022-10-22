@@ -16,7 +16,6 @@ import {
 } from "@firebase/firestore";
 import React, { useContext, useEffect, Platform, useRef } from "react";
 
-/////
 import * as Notifications from "expo-notifications";
 
 Notifications.setNotificationHandler({
@@ -26,7 +25,6 @@ Notifications.setNotificationHandler({
     shouldSetBadge: true,
   }),
 });
-/////
 
 const DATA = [
   {
@@ -65,26 +63,19 @@ const HomeScreen = () => {
 
   //For push notification
 
-  // const notificationListener = useRef();
-  // const responseListener = useRef();
+  const responseListener = useRef();
 
   useEffect(() => {
     registerForPushNotificationsAsync(user);
 
-    // // This listener is fired whenever a notification is received while the app is foregrounded
-    // notificationListener.current =
-    //   Notifications.addNotificationReceivedListener();
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener(() => {
+        navigation.navigate("Messages");
+      });
 
-    // // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    // responseListener.current =
-    //   Notifications.addNotificationResponseReceivedListener();
-
-    // return () => {
-    //   Notifications.removeNotificationSubscription(
-    //     notificationListener.current
-    //   );
-    //   Notifications.removeNotificationSubscription(responseListener.current);
-    // };
+    return () => {
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -137,9 +128,9 @@ const HomeScreen = () => {
                 <Icon
                   style={tw`p-2 bg-black rounded-full w-10 mt-2`}
                   round
-                  name='arrowright'
-                  color='white'
-                  type='antdesign'
+                  name="arrowright"
+                  color="white"
+                  type="antdesign"
                 />
               </View>
             </TouchableOpacity>
