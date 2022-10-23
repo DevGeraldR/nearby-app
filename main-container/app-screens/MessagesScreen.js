@@ -1,7 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+/**
+ * Messages Tab
+ * Use to display the list of messages
+ */
+
+import React, { useContext } from "react";
 import { View, Text } from "react-native";
 import { Context } from "../context/Context";
-import { auth, db } from "../firebase/firebase";
+import { auth } from "../firebase/firebase";
 import tw from "twrnc";
 import ListMessages from "../components/ListMessages";
 
@@ -9,7 +14,7 @@ export default function MessagesScreen() {
   const { rooms } = useContext(Context);
 
   return rooms.length > 0 ? (
-    //Display the messages sort first before map to display it as sorted
+    //Display the messages sort first before map to display it as sorted by time
     <View style={{ flex: 1, padding: 5, paddingRight: 10 }}>
       {rooms
         .sort((a, b) => b.lastMessage.createdAt - a.lastMessage.createdAt)
@@ -31,11 +36,11 @@ export default function MessagesScreen() {
 }
 
 //Delete the Current user to the participants to get the userB or the reciever
-//Export to use in sending push notification uwu
+//Export this to use in sending push notification
 export const getUserB = (users) => {
   const user = auth.currentUser;
   const newUsers = { ...users };
-  //Delete the Curent User if it is a sender and delete the userB if it is the reciever
+  //Delete all the information that much the current user to get the other user.
   if (user.email == newUsers[0].email) {
     delete newUsers[0];
   } else {

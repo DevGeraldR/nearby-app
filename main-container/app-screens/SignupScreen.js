@@ -1,3 +1,8 @@
+/**
+ * Signup page
+ * It use firebase authentication
+ */
+
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -26,13 +31,23 @@ const SignupScreen = () => {
   const [photo, setPhoto] = useState("");
 
   const SignupUser = () => {
+    //To create the new user in our firebase authentication
+    //Then update the user data to save the user photoURL
     createUserWithEmailAndPassword(auth, email, password)
       .then((authUser) => {
         const user = authUser.user;
-        user.displayName = name;
-        user.photoURL =
-          photo ||
-          "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png";
+        //-----------------------------NOTE-----------------------------
+        //I use the syntax below to solve the bug that the user photo doesn't display after
+        //login in the home screen but i remove it for now since i am not displaying user
+        //photo in the hompage anymore.
+        //_____________SYNTAX_____________//
+        // user.displayName = name;
+        // user.photoURL =
+        //   photo ||
+        //   "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png";
+        //________________________________
+        //Don't delete this for future use.
+        //--------------------------------------------------------------
         updateProfile(user, {
           displayName: name,
           photoURL:
@@ -41,6 +56,7 @@ const SignupScreen = () => {
         }).catch((error) => {
           alert(error.message);
         });
+        //To send the user information in our database
         try {
           setDoc(doc(db, "Users", name), {
             name: name,
@@ -63,12 +79,19 @@ const SignupScreen = () => {
       });
   };
 
+  /**
+   * The rest is for the UI
+   * It displays a input box for the user to input their information
+   * And also signup button for the user to be able to signup
+   * and navigate the user to the home tab
+   */
+
   return (
-    <KeyboardAvoidingView behaviour='padding' style={styles.container}>
-      <StatusBar style='light' />
+    <KeyboardAvoidingView behaviour="padding" style={styles.container}>
+      <StatusBar style="light" />
       <View>
         <TextInput
-          placeholder='Full Name'
+          placeholder="Full Name"
           autoFocus
           value={name}
           autofocus
@@ -76,39 +99,39 @@ const SignupScreen = () => {
           style={styles.inputContainer}
         />
         <TextInput
-          placeholder='Steet'
+          placeholder="Steet"
           value={street}
           autofocus
           onChangeText={(text) => setStreet(text)}
           style={styles.inputContainer}
         />
         <TextInput
-          placeholder='City'
+          placeholder="City"
           value={city}
           autofocus
           onChangeText={(text) => setCity(text)}
           style={styles.inputContainer}
         />
         <TextInput
-          placeholder='Province'
+          placeholder="Province"
           value={province}
           onChangeText={(text) => setProvince(text)}
           style={styles.inputContainer}
         />
         <TextInput
-          placeholder='Contact Number'
+          placeholder="Contact Number"
           value={contactNumber}
           onChangeText={(text) => setContactNumber(text)}
           style={styles.inputContainer}
         />
         <TextInput
-          placeholder='Email'
+          placeholder="Email"
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.inputContainer}
         />
         <TextInput
-          placeholder='Password'
+          placeholder="Password"
           value={password}
           onChangeText={(text) => setPassword(text)}
           style={styles.inputContainer}
@@ -116,10 +139,10 @@ const SignupScreen = () => {
       </View>
       <View style={styles.button}>
         <Button
-          title='Signup'
+          title="Signup"
           onPress={SignupUser}
           style={styles.button}
-          color='#68bb59'
+          color="#68bb59"
         />
       </View>
     </KeyboardAvoidingView>

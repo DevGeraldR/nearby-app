@@ -1,17 +1,21 @@
+/**
+ * To display all the messages in our messages tab
+ */
+
 import { useNavigation } from "@react-navigation/native";
-import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, TouchableOpacity } from "react-native";
 import { Grid, Row, Col } from "react-native-easy-grid";
 import Avatar from "./Avatar";
 
-import { auth, db } from "../firebase/firebase";
+import { auth } from "../firebase/firebase";
 
 export default function ListMessages({ description, user, time, room }) {
   const navigation = useNavigation();
   const [unRead, setUnRead] = useState(true);
   const currentUser = auth.currentUser;
 
-  //To chech if the user read this message
+  //To chech if the user already read the message
   useEffect(() => {
     if (room.readReceipt.includes(currentUser.email)) {
       setUnRead(false);

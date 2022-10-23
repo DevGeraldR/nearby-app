@@ -1,3 +1,9 @@
+/**
+ * Use for app navigation
+ * It decided wether to navigate the user to
+ * the login page or to the home screen
+ */
+
 import AuthNav from "./AuthNav";
 import { NavigationContainer } from "@react-navigation/native";
 import { auth } from "../firebase/firebase";
@@ -10,6 +16,8 @@ import MainNav from "./MainNav";
 const AppNav = () => {
   const { isLoged, setIsLoged } = useContext(Context);
 
+  //Listen to the changes in the firebase authentication.
+  //To check if a user is loged in or already loged in.
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {

@@ -1,3 +1,9 @@
+/**
+ * Use for Main navigation.
+ * Navigation after the user loged in
+ * Declare here all the screen for main navigation
+ */
+
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -24,55 +30,55 @@ const MainNav = () => {
       }}
     >
       <Stack.Screen
-        name='TabNav'
+        name="TabNav"
         component={TabNav}
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name='AdminTools'
+        name="AdminTools"
         component={AdminToolsScreen}
         options={{
           title: "Edit Icon",
         }}
       />
       <Stack.Screen
-        name='AddHospital'
+        name="AddHospital"
         options={{
           title: "Hospital Information",
         }}
         component={AddHospitaScreen}
       />
       <Stack.Screen
-        name='EditHospital'
+        name="EditHospital"
         component={EditHospitalScreen}
         options={{
           title: "Edit My Hospital",
         }}
       />
       <Stack.Screen
-        name='Home'
+        name="Home"
         component={HomeScreen}
         options={{
           contentStyle: { backgroundColor: "white" },
         }}
       />
       <Stack.Screen
-        name='SearchHospital'
+        name="SearchHospital"
         component={SearchHospitalScreen}
         options={{
           title: "Nearby Hospital",
         }}
       />
       <Stack.Screen
-        name='message'
+        name="message"
         component={MessageScreen}
         options={{ headerTitle: (props) => <MessageHeader {...props} /> }}
       />
-      <Stack.Screen name='Messages' component={MessageScreen} />
+      <Stack.Screen name="Messages" component={MessageScreen} />
       <Stack.Screen
-        name='profile'
+        name="profile"
         component={ProfileScreen}
         options={{
           title: "Profile",

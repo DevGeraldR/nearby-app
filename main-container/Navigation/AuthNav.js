@@ -1,3 +1,8 @@
+/**
+ * The Login page
+ * Declare here all the screen for authentication/login
+ */
+
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../app-screens/LoginScreen";
@@ -16,14 +21,14 @@ const AuthNav = () => {
       }}
     >
       <Stack.Screen
-        name='Login'
+        name="Login"
         component={LoginScreen}
         options={{
           headerShown: false,
           contentStyle: { backgroundColor: "#ddead1" },
         }}
       />
-      <Stack.Screen name='Signup' component={SignupScreen} />
+      <Stack.Screen name="Signup" component={SignupScreen} />
     </Stack.Navigator>
   );
 };

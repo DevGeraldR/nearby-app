@@ -1,3 +1,11 @@
+/**
+ * Home Tab
+ * Display after the user loged in
+ * Get the rooms in the database for messaging purposes
+ * Rooms are where the information of the sender and the reciever store
+ * It also register the user for push notication
+ */
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
 import tw from "twrnc";
@@ -18,6 +26,7 @@ import React, { useContext, useEffect, Platform, useRef } from "react";
 
 import * as Notifications from "expo-notifications";
 
+//Use for notication when app is foregrounded
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -26,6 +35,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
+//The data of a screen use to display the icon for navigation
 const DATA = [
   {
     id: "1",
@@ -51,7 +61,7 @@ const DATA = [
 ];
 
 const HomeScreen = () => {
-  //For messsaging, reading the rooms firebase
+  //For messsaging, reading the rooms collection in database
   const navigation = useNavigation();
   const user = auth.currentUser;
   const { rooms, setRooms, setBadgeCounter } = useContext(Context);
@@ -62,12 +72,12 @@ const HomeScreen = () => {
   );
 
   //For push notification
-
   const responseListener = useRef();
-
   useEffect(() => {
+    //To register the user for push notication
     registerForPushNotificationsAsync(user);
 
+    //Use to navigate the user to the Messages screen if the user click the notification.
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener(() => {
         navigation.navigate("Messages");
@@ -78,12 +88,15 @@ const HomeScreen = () => {
     };
   }, []);
 
+  //Use to get all the Rooms, for messaging purpose.
   useEffect(() => {
+    //To get all the Rooms in the database
     const unsubscribe = onSnapshot(chatsQuery, (querySnapshot) => {
       const parsedChats = querySnapshot.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
+      //To filter the rooms, get only the rooms where the user has last message
       setRooms(parsedChats.filter((doc) => doc.lastMessage));
     });
 
@@ -100,6 +113,12 @@ const HomeScreen = () => {
     });
     setBadgeCounter(counter);
   }, [rooms]);
+
+  /**
+   * This return the UI
+   * Where the icons were display and navigate the user to
+   * the certain page if the user interacts with the icon
+   */
 
   return (
     <SafeAreaView>
@@ -141,6 +160,8 @@ const HomeScreen = () => {
   );
 };
 
+//Use to Register the user for push notication
+//This was callled first at the top
 const registerForPushNotificationsAsync = async (user) => {
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let finalStatus = existingStatus;

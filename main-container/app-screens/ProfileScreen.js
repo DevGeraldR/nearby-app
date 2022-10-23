@@ -1,10 +1,20 @@
-import { StyleSheet, Text, View, Button } from "react-native";
+/**
+ * Profile Tab
+ * Use do display and edit profile of the user
+ * And also to logout
+ */
+
+import { StyleSheet, View, Button } from "react-native";
 import React, { useContext } from "react";
 import { auth } from "../firebase/firebase";
 import { Context } from "../context/Context";
 
 const ProfileScreen = () => {
+  /**
+   * TODO: Profile page
+   */
   const { setIsLoged, setRooms } = useContext(Context);
+  //To sign out the user
   const signOut = () => {
     setRooms([]);
     auth.signOut().then(() => {
@@ -14,7 +24,7 @@ const ProfileScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.button}>
-        <Button title='Sign Out' onPress={signOut} color='#68bb59' />
+        <Button title="Sign Out" onPress={signOut} color="#68bb59" />
       </View>
     </View>
   );

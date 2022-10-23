@@ -1,3 +1,7 @@
+/**
+ * Add Hospital page
+ */
+
 import {
   KeyboardAvoidingView,
   StyleSheet,
@@ -14,7 +18,9 @@ import { StatusBar } from "expo-status-bar";
 import * as Location from "expo-location";
 import Loading from "../components/Loading";
 
-//TO DO: Verification Proccess
+/**
+ * TODO: Photo/profile uploading
+ */
 const AddHospitaScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [adminName, setAdminName] = useState("");
@@ -29,15 +35,20 @@ const AddHospitaScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    //To ask the permission and get the location of the user
     (async () => {
+      //Ask permission
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
         console.log("Permission to access location was denied");
         return;
       }
+      //Get Location
       let locations = await Location.getCurrentPositionAsync({});
       setLocation(locations.coords);
     })();
+    //To set the name and email of the admin of the hospital
+    //It is use in messaging
     const user = auth.currentUser;
     if (user) {
       setAdminName(user.displayName);
@@ -45,8 +56,11 @@ const AddHospitaScreen = ({ navigation }) => {
     }
   }, []);
 
+  //To add the hospital in the database
   const addHospital = () => {
+    //To display the loading icon
     setLoading(true);
+    //To send the hospital information in our database
     try {
       setDoc(doc(db, "Hospitals", name), {
         adminName: adminName,
@@ -60,24 +74,36 @@ const AddHospitaScreen = ({ navigation }) => {
         email: email,
         latitude: location.latitude,
         longitude: location.longitude,
+        //If the user upload a photo use the photo if not use the default profile picture
+        //Not yet implemented
         photoURL:
           photo ||
           "https://cdn.icon-icons.com/icons2/1465/PNG/512/588hospital_100778.png",
       });
+      //To remove the loading icon
       setLoading(false);
       Alert.alert(
         "Displayed Succesfully",
         "You can add more hospital information here."
       );
+      //To navigate to the edit hospital screen after adding hospital
       navigation.replace("EditHospital");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
 
+  /**
+   * The rest is for the UI
+   * It first check if the location already fetch, it is use
+   * because sometimes the location took so long to fetch
+   * and theres instance that the user added the hospital
+   * without a location causing an error in the database.
+   */
+
   return (
-    <KeyboardAvoidingView behaviour='padding' style={styles.container}>
-      <StatusBar style='light' />
+    <KeyboardAvoidingView behaviour="padding" style={styles.container}>
+      <StatusBar style="light" />
       {!location ? (
         <Loading />
       ) : (
@@ -88,7 +114,7 @@ const AddHospitaScreen = ({ navigation }) => {
             <>
               <View>
                 <TextInput
-                  placeholder='Hospital Name'
+                  placeholder="Hospital Name"
                   autoFocus
                   value={name}
                   autofocus
@@ -96,33 +122,33 @@ const AddHospitaScreen = ({ navigation }) => {
                   style={styles.inputContainer}
                 />
                 <TextInput
-                  placeholder='Street'
+                  placeholder="Street"
                   value={street}
                   autofocus
                   onChangeText={(text) => setStreet(text)}
                   style={styles.inputContainer}
                 />
                 <TextInput
-                  placeholder='City'
+                  placeholder="City"
                   value={city}
                   autofocus
                   onChangeText={(text) => setCity(text)}
                   style={styles.inputContainer}
                 />
                 <TextInput
-                  placeholder='Province'
+                  placeholder="Province"
                   value={province}
                   onChangeText={(text) => setProvince(text)}
                   style={styles.inputContainer}
                 />
                 <TextInput
-                  placeholder='Contact Number'
+                  placeholder="Contact Number"
                   value={contactNumber}
                   onChangeText={(text) => setContactNumber(text)}
                   style={styles.inputContainer}
                 />
                 <TextInput
-                  placeholder='Email'
+                  placeholder="Email"
                   value={email}
                   onChangeText={(text) => setEmail(text)}
                   style={styles.inputContainer}
@@ -130,10 +156,10 @@ const AddHospitaScreen = ({ navigation }) => {
               </View>
               <View style={styles.button}>
                 <Button
-                  title='Display'
+                  title="Display"
                   onPress={addHospital}
                   style={styles.button}
-                  color='#68bb59'
+                  color="#68bb59"
                 />
               </View>
             </>

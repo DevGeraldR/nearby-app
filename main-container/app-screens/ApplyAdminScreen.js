@@ -1,7 +1,17 @@
+/**
+ * Apply Admin page
+ * Use if the user is not an admin and go to the admin page
+ * Accomodate user if wants to apply as an admin
+ */
+
 import { StyleSheet, Text, View, Button } from "react-native";
 import React from "react";
 
 const ApplyAdminScreen = () => {
+  /**
+   * TODO: Apply admin screen
+   */
+
   return (
     <View style={styles.container}>
       <View>
@@ -11,8 +21,8 @@ const ApplyAdminScreen = () => {
       <View>
         <Button
           style={styles.button}
-          color='#68bb59'
-          title='Start Now'
+          color="#68bb59"
+          title="Start Now"
           onPress={() => {}}
         />
       </View>

@@ -1,7 +1,9 @@
+/**
+ * The header of the message
+ */
+
 import { useRoute } from "@react-navigation/native";
-import React, { useContext } from "react";
 import { View, Text } from "react-native";
-import { Context } from "../context/Context";
 import Avatar from "./Avatar";
 
 export default function MessageHeader() {

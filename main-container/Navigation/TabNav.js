@@ -1,3 +1,8 @@
+/**
+ * Use for Tab navigation
+ * When the user interact with the tab bar
+ */
+
 import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -17,7 +22,7 @@ const TabNav = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
           let rn = route.name;
-
+          //To change the design of the icon when the user clicked it
           if (rn === "Home") {
             iconName = focused ? "home" : "home-outline";
           } else if (rn === "Add Place") {
@@ -42,17 +47,18 @@ const TabNav = () => {
       })}
     >
       <Tab.Screen
-        name='Home'
+        name="Home"
         optioin={{ title: "Home" }}
         component={HomeScreen}
       />
-      <Tab.Screen name='Add Place' component={AdminToolsScreen} />
+      <Tab.Screen name="Add Place" component={AdminToolsScreen} />
       <Tab.Screen
-        name='Messages'
+        name="Messages"
         component={MessagesScreen}
+        //To display the number of unread messages in the message icon
         options={{ tabBarBadge: badgeCounter !== 0 ? badgeCounter : null }}
       />
-      <Tab.Screen name='Profile' component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
 };

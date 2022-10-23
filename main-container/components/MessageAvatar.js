@@ -1,3 +1,7 @@
+/**
+ * Display the avatar of the receiver in the header of the message screen
+ */
+
 import React from "react";
 import { Image } from "react-native";
 
@@ -12,7 +16,7 @@ export default function MessageAvatar({ size, participant }) {
         height: size,
         borderRadius: size,
       }}
-      resizeMode='cover'
+      resizeMode="cover"
     />
   );
 }

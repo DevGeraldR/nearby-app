@@ -1,3 +1,9 @@
+/**
+ * Use for interacting with the firebase(nearby database)
+ * It use Firebase authentication(for user login)
+ * and firebase firestore(for database)
+ */
+
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
@@ -17,6 +23,7 @@ const firebaseConfig = {
 };
 let app;
 let auth;
+//To check if the app is not yet initialize. Initialize if not. If already initialize use the inilize version
 if (getApps().length === 0) {
   app = initializeApp(firebaseConfig);
   auth = initializeAuth(app, {
@@ -26,6 +33,7 @@ if (getApps().length === 0) {
   app = getApp();
   auth = getAuth();
 }
+//Initiliae the firestore(database)
 const db = getFirestore(app);
 
 export { auth, db };

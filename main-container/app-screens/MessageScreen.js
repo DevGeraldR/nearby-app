@@ -1,3 +1,8 @@
+/**
+ * Message page
+ * Where the messaging happen
+ */
+
 // @refresh reset
 import React, {
   useCallback,
@@ -38,15 +43,26 @@ const MessageScreen = () => {
     _id: user.uid,
     avatar: user.photoURL,
   };
+
+  //To get the room
+  //If the user comes from the Messages screen the route.params.room will be use
+  //Because in our Messages we have their the room that we use to display all the messages.
+  //If the user comes from the search hospital where they can start a
+  //message with the hospital the progran needs to search first the rooms to check if they
+  //already have. It is use to redirect the user from their older message if they already have.
   const room = route.params.room
     ? route.params.room
     : rooms.find((room) => room.participantsArray.includes(place.adminEmail));
 
+  //To get the room id
+  //Check if already have a room
+  //If already have a room then use the room id if not then generate a random id
   const roomId = room ? room.id : randomId;
 
   const roomRef = doc(db, "rooms", roomId);
   const roomMessagesRef = collection(db, "rooms", roomId, "messages");
 
+  //To create room and add it to our database in Rooms collection
   useEffect(() => {
     (async () => {
       if (!room) {
@@ -56,7 +72,7 @@ const MessageScreen = () => {
           photoURL: user.photoURL,
         };
         const placeData = {
-          displayName: place.displayName, //Place Displayname
+          displayName: place.displayName,
           adminName: place.adminName,
           adminEmail: place.adminEmail,
           photoURL: place.photoURL,
@@ -64,15 +80,19 @@ const MessageScreen = () => {
         const roomData = {
           participants: [currUserData, placeData],
           participantsArray: [user.email, place.adminEmail],
+          // Read receipt is use to decide whether the user already read the message
+          //It store the email of the user who opened the message
           readReceipt: [user.email],
         };
+        //Send the data to the database
         try {
           await setDoc(roomRef, roomData);
         } catch (error) {
           console.log(error);
         }
       } else {
-        //To add the current user to the reader Reaciept
+        //If already have a room and the user open a message
+        //add the current user to the reader Reaciept
         if (!room.readReceipt.includes(user.email)) {
           await updateDoc(roomRef, {
             readReceipt: arrayUnion(user.email),
@@ -82,7 +102,11 @@ const MessageScreen = () => {
     })();
   }, []);
 
+  //Use to check if there is a changes in our messages and update it
+  //If there is a  new message add in our database
+  //Get that message and display it to the user
   useEffect(() => {
+    //Use to listen to the database and get the new message
     const unsubscribe = onSnapshot(roomMessagesRef, (querySnapshot) => {
       const messagesFirestore = querySnapshot
         .docChanges()
@@ -95,22 +119,24 @@ const MessageScreen = () => {
           };
         })
         .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      //Call the function that displays the message
       appendMessages(messagesFirestore);
     });
     return () => unsubscribe();
   }, []);
 
   const sendPushNotification = async () => {
-    //To get the other user that will receive the notification, if there is no message then the receiver will be the facility/place
-    const receiver = getUserB(room.participants);
+    //To get the other user that will receive the notification, if there is no room/message
+    //then the receiver will be the facility/place
+    const receiver = !room ? place : getUserB(room.participants);
     //if sending to a hospital it should be admin name but if customer it is display name
     const receiverName = receiver.adminName
       ? receiver.adminName
       : receiver.displayName;
-    //Read the data that match the name of the reciever
+    //To read the data of the user that match the name of the reciever
     const docRef = doc(db, "Users", receiverName);
     const docSnap = await getDoc(docRef);
-    //Send the message
+    //To send the message
     const message = {
       to: docSnap.data().pushToken,
       sound: "default",
@@ -129,6 +155,7 @@ const MessageScreen = () => {
     });
   };
 
+  //Use to display the new message to the user
   const appendMessages = useCallback(
     (messages) => {
       setMessages((previousMessages) =>
@@ -153,9 +180,15 @@ const MessageScreen = () => {
         readReceipt: arrayRemove(userB ? userB : " "),
       })
     );
+    //To send notification to the receiver
     sendPushNotification();
     await Promise.all(writes);
   }
+
+  /**
+   * The rest is for the UI
+   * We use gifted chat library to display the messages
+   */
 
   return (
     <GiftedChat

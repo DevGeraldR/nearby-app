@@ -1,3 +1,8 @@
+/**
+ * Login page
+ * Use when the user wants to login or go to signup page
+ */
+
 import {
   StyleSheet,
   Text,
@@ -18,6 +23,7 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  //To sign in the user it uses firebase authentication
   const signIn = () => {
     signInWithEmailAndPassword(auth, email, password).catch((error) => {
       const errorCode = error.code;
@@ -25,9 +31,17 @@ const LoginScreen = ({ navigation }) => {
     });
   };
 
+  /**
+   * The rest is for the UI
+   * It display the login page with email and password as an input
+   * And login and sign up as button
+   * If the user click login call signIn function
+   * If the user click sign up navigate to the sign up page
+   */
+
   return (
     <KeyboardAvoidingView style={styles.container}>
-      <StatusBar style='dark' />
+      <StatusBar style="dark" />
       <Image
         source={require("../app-asset/Nearby_Official_Logo.png")}
         style={{ width: 200, height: 200 }}
@@ -35,30 +49,30 @@ const LoginScreen = ({ navigation }) => {
       <Text style={styles.text}>NEARBY</Text>
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder='Email'
+          placeholder="Email"
           autoFocus
-          type='email'
+          type="email"
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
       </View>
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder='Password'
-          type='password'
+          placeholder="Password"
+          type="password"
           secureTextEntry
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
       </View>
       <View style={styles.button}>
-        <Button title='Login' onPress={signIn} color='#68bb59' />
+        <Button title="Login" onPress={signIn} color="#68bb59" />
       </View>
       <View style={styles.button}>
         <Button
           style={styles.button}
-          color='#b7d2b6'
-          title='Signup'
+          color="#b7d2b6"
+          title="Signup"
           onPress={() => navigation.navigate("Signup")}
         />
       </View>
