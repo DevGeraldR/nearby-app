@@ -9,6 +9,8 @@ import React, { useContext } from "react";
 import { auth } from "../firebase/firebase";
 import { Context } from "../context/Context";
 
+import { StatusBar } from "expo-status-bar";
+
 const ProfileScreen = () => {
   /**
    * TODO: Profile page
@@ -23,6 +25,7 @@ const ProfileScreen = () => {
   };
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <View style={styles.button}>
         <Button title="Sign Out" onPress={signOut} color="#68bb59" />
       </View>

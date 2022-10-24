@@ -26,6 +26,8 @@ import React, { useContext, useEffect, Platform, useRef } from "react";
 
 import * as Notifications from "expo-notifications";
 
+import { StatusBar } from "expo-status-bar";
+
 //Use for notication when app is foregrounded
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -122,6 +124,7 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaView>
+      <StatusBar style="light" />
       <View>
         <FlatList
           data={DATA}

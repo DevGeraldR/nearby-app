@@ -43,7 +43,7 @@ const LoginScreen = ({ navigation }) => {
     <KeyboardAvoidingView style={styles.container}>
       <StatusBar style="dark" />
       <Image
-        source={require("../app-asset/Nearby_Official_Logo.png")}
+        source={require("../../assets/logo.png")}
         style={{ width: 200, height: 200 }}
       />
       <Text style={styles.text}>NEARBY</Text>

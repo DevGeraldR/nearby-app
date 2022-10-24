@@ -27,6 +27,8 @@ import { getDistance } from "geolib";
 import Loading from "../components/Loading";
 import { EvilIcons, AntDesign } from "@expo/vector-icons";
 
+import { StatusBar } from "expo-status-bar";
+
 const SearchHospitalScreen = ({ navigation }) => {
   const [filteredList, setFilteredList] = useState([]);
   const [searchList, setSearchList] = useState([]);
@@ -141,6 +143,7 @@ const SearchHospitalScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={tw`bg-white flex-1`}>
+      <StatusBar style="light" />
       <TextInput
         style={styles.textInputStyle}
         onChangeText={(text) => {

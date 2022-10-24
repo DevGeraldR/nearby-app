@@ -6,11 +6,17 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
 
+import { StatusBar } from "expo-status-bar";
+
 const EditHospitalScreen = () => {
   /**
    * TODO: Edit Hospital
    */
-  return <View></View>;
+  return (
+    <View>
+      <StatusBar style="light" />
+    </View>
+  );
 };
 
 export default EditHospitalScreen;

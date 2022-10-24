@@ -10,6 +10,8 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import Loading from "../components/Loading";
 import ApplyAdminScreen from "./ApplyAdminScreen";
 
+import { StatusBar } from "expo-status-bar";
+
 const AdminToolsScreen = ({ navigation }) => {
   const [loading, setLoading] = useState(true);
   const [admin, setAdmin] = useState(false);
@@ -55,6 +57,7 @@ const AdminToolsScreen = ({ navigation }) => {
 
   return (
     <>
+      <StatusBar style="light" />
       {loading ? (
         <Loading />
       ) : (

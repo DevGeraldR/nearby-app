@@ -30,6 +30,8 @@ import { Context } from "../context/Context";
 import { useRoute } from "@react-navigation/native";
 import { getUserB } from "./MessagesScreen";
 
+import { StatusBar } from "expo-status-bar";
+
 const MessageScreen = () => {
   const route = useRoute(Context);
   const randomId = useMemo(() => nanoid(), []);
@@ -191,37 +193,40 @@ const MessageScreen = () => {
    */
 
   return (
-    <GiftedChat
-      onSend={onSend}
-      messages={messages}
-      user={senderUser}
-      renderAvatar={null}
-      timeTextStyle={{ right: { color: "gray" } }}
-      renderInputToolbar={(props) => (
-        <InputToolbar
-          {...props}
-          containerStyle={{
-            marginLeft: 10,
-            marginRight: 10,
-            marginBottom: 2,
-            borderRadius: 20,
-          }}
-        />
-      )}
-      renderBubble={(props) => (
-        <Bubble
-          {...props}
-          wrapperStyle={{
-            left: {
-              backgroundColor: "#b7d2b6",
-            },
-            right: {
-              backgroundColor: "#68bb59",
-            },
-          }}
-        />
-      )}
-    />
+    <>
+      <StatusBar style="light" />
+      <GiftedChat
+        onSend={onSend}
+        messages={messages}
+        user={senderUser}
+        renderAvatar={null}
+        timeTextStyle={{ right: { color: "gray" } }}
+        renderInputToolbar={(props) => (
+          <InputToolbar
+            {...props}
+            containerStyle={{
+              marginLeft: 10,
+              marginRight: 10,
+              marginBottom: 2,
+              borderRadius: 20,
+            }}
+          />
+        )}
+        renderBubble={(props) => (
+          <Bubble
+            {...props}
+            wrapperStyle={{
+              left: {
+                backgroundColor: "#b7d2b6",
+              },
+              right: {
+                backgroundColor: "#68bb59",
+              },
+            }}
+          />
+        )}
+      />
+    </>
   );
 };
 

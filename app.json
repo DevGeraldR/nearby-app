@@ -1,30 +1,38 @@
 {
   "expo": {
-    "name": "Nearest",
-    "slug": "Nearest",
+    "name": "Nearby",
+    "slug": "nearby",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./main-container/app-asset/Nearby_Official_Logo.png",
+    "icon": "./assets/icon.png",
     "scheme": "com.nearby",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./main-container/app-asset/Nearby_Official_Logo.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "expo-notifications": {
-      "icon": "./main-container/app-asset/Nearby_Official_Logo.png",
-      "color": "#ffffff"
-    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/adaptive-icon.png",
+          "color": "#ffffff"
+        }
+      ]
+    ],
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "package": "com.nearby",
+      "useNextNotificationsApi": true,
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -32,7 +40,12 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.ico"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2a99b842-df8c-4d1d-8182-5ed947c6ff8f"
+      }
     }
   }
 }

@@ -10,28 +10,35 @@ import { auth } from "../firebase/firebase";
 import tw from "twrnc";
 import ListMessages from "../components/ListMessages";
 
+import { StatusBar } from "expo-status-bar";
+
 export default function MessagesScreen() {
   const { rooms } = useContext(Context);
 
-  return rooms.length > 0 ? (
-    //Display the messages sort first before map to display it as sorted by time
-    <View style={{ flex: 1, padding: 5, paddingRight: 10 }}>
-      {rooms
-        .sort((a, b) => b.lastMessage.createdAt - a.lastMessage.createdAt)
-        .map((room) => (
-          <ListMessages
-            description={room.lastMessage.text}
-            key={room.id}
-            room={room}
-            time={room.lastMessage.createdAt}
-            user={getUserB(room.participants)}
-          />
-        ))}
-    </View>
-  ) : (
-    <View style={tw`p-5`}>
-      <Text style={tw`text-center text-lg `}>No Message</Text>
-    </View>
+  return (
+    <>
+      <StatusBar style="light" />
+      {rooms.length > 0 ? (
+        //Display the messages sort first before map to display it as sorted by
+        <View style={{ flex: 1, padding: 5, paddingRight: 10 }}>
+          {rooms
+            .sort((a, b) => b.lastMessage.createdAt - a.lastMessage.createdAt)
+            .map((room) => (
+              <ListMessages
+                description={room.lastMessage.text}
+                key={room.id}
+                room={room}
+                time={room.lastMessage.createdAt}
+                user={getUserB(room.participants)}
+              />
+            ))}
+        </View>
+      ) : (
+        <View style={tw`p-5`}>
+          <Text style={tw`text-center text-lg `}>No Message</Text>
+        </View>
+      )}
+    </>
   );
 }
 

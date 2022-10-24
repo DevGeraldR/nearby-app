@@ -7,6 +7,8 @@
 import { StyleSheet, Text, View, Button } from "react-native";
 import React from "react";
 
+import { StatusBar } from "expo-status-bar";
+
 const ApplyAdminScreen = () => {
   /**
    * TODO: Apply admin screen
@@ -14,6 +16,7 @@ const ApplyAdminScreen = () => {
 
   return (
     <View style={styles.container}>
+      <StatusBar style="light" />
       <View>
         <Text>Grow your business with Nearby Ads</Text>
         <Text>Help customers find your business</Text>
