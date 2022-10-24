@@ -176,7 +176,11 @@ const registerForPushNotificationsAsync = async (user) => {
     alert("Failed to get push token for push notification!");
     return;
   }
-  const token = (await Notifications.getExpoPushTokenAsync()).data;
+  const token = (
+    await Notifications.getExpoPushTokenAsync({
+      experienceId: "@goodman_22/nearby",
+    })
+  ).data;
 
   if (Platform?.OS === "android") {
     Notifications.setNotificationChannelAsync("default", {
