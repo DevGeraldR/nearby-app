@@ -44,14 +44,12 @@ const DATA = [
     title: "Hospital",
     image:
       "https://cdn.icon-icons.com/icons2/1465/PNG/512/588hospital_100778.png",
-    screen: "hospital",
   },
   {
     id: "2",
     title: "Jeepney",
     image:
       "https://toppng.com/public/uploads/thumbnail/jeep-clipart-jeepney-philippine-jeepney-clipart-side-view-11562941562xx1xd61lgj.png",
-    screen: "Home",
   },
 ];
 
@@ -126,7 +124,7 @@ const HomeScreen = () => {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate(item.screen);
+                navigation.navigate("searchPlace", item.title);
               }}
               style={tw`p-2 pl-6 pb-4 pt-4 bg-gray-200 m-2 w-40`}
             >

@@ -1,8 +1,8 @@
 /**
- * Search Hospital page
- * Display the nearest hospital
- * Display search bar if the user wants to find specific hospital
- * Display location and message button if a user selected a hospital
+ * Search Place Page
+ * Display the nearest Place
+ * Display search bar if the user wants to find specific Place
+ * Display location and message button if a user selected a Place
  * Redirect the user to the google map if the user click location button
  * Redirect the user to the message screen if the user click message button
  */
@@ -14,7 +14,6 @@ import {
   TouchableOpacity,
   View,
   TextInput,
-  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,10 +26,12 @@ import * as Location from "expo-location";
 import { getDistance } from "geolib";
 import Loading from "../components/Loading";
 import { EvilIcons, AntDesign } from "@expo/vector-icons";
-
+import { Context } from "../context/Context";
+import { useRoute } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 
-const HospitalScreen = ({ navigation }) => {
+const SearchPlaceScreen = ({ navigation }) => {
+  const route = useRoute(Context);
   const [filteredList, setFilteredList] = useState([]);
   const [searchList, setSearchList] = useState([]);
   const [userLatitude, setUserLatitude] = useState(null);
@@ -40,11 +41,15 @@ const HospitalScreen = ({ navigation }) => {
   const [selected, setSelected] = useState(null);
   const user = auth.currentUser;
 
+  // route.params contain the title of the selected place from the home screen
+  const placeName = route.params;
+
   useEffect(() => {
-    //To get and store the list of hospital from our database to the variables.
+    //To get and store the list of place from our database to the variables.
     async function fetchData() {
-      const querySnapshot = await getDocs(collection(db, "Hospitals"));
-      const hospitals = [];
+      // This will fetch the data base on the place Name
+      const querySnapshot = await getDocs(collection(db, placeName));
+      const place = [];
       querySnapshot.forEach((doc) => {
         const {
           displayName,
@@ -59,7 +64,7 @@ const HospitalScreen = ({ navigation }) => {
           longitude,
           latitude,
         } = doc.data();
-        hospitals.push({
+        place.push({
           id: doc.id,
           displayName,
           adminName,
@@ -74,7 +79,7 @@ const HospitalScreen = ({ navigation }) => {
           longitude,
         });
       });
-      //To filter and get the nearest hospital to the user.
+      //To filter and get the nearest place to the user.
       const filteredLists = [];
       {
         //To ask for permession to get the user current location
@@ -88,8 +93,8 @@ const HospitalScreen = ({ navigation }) => {
         setUserLatitude(location.coords.latitude);
         setUserLongitude(location.coords.longitude);
 
-        //To get the list of the nearest hospital to the user
-        Object.values(hospitals).map((values) => {
+        //To get the list of the nearest place to the user
+        Object.values(place).map((values) => {
           let distance = getDistance(
             {
               latitude: location.coords.latitude,
@@ -103,7 +108,7 @@ const HospitalScreen = ({ navigation }) => {
           }
         });
       }
-      //To sort the list of the nearest hospital from the nearest.
+      //To sort the list of the nearest place from the nearest.
       filteredLists.sort((a, b) => a.distance - b.distance);
       setFilteredList(filteredLists);
       //To stop the loading
@@ -112,8 +117,8 @@ const HospitalScreen = ({ navigation }) => {
     fetchData();
   }, []);
 
-  //Use when the user search a hospital to the search bar
-  //The user so far can search the name of a hospital or a address.
+  //Use when the user search a place to the search bar
+  //The user so far can search the name of a place or a address.
   const searchFilterFunction = (text) => {
     if (text) {
       const newData = filteredList.filter(function (item) {
@@ -135,10 +140,10 @@ const HospitalScreen = ({ navigation }) => {
    * The rest is for the UI
    * It First check if the loading is done
    * Loading is implemented while getting the user location
-   * and fetching the nearest hospital
-   * Then it display the nearest hospital and
+   * and fetching the nearest place
+   * Then it display the nearest place and
    * the location and message button
-   * will appear after a user selected a hospital
+   * will appear after a user selected a place
    * And the said functionality at the top will be applied
    */
 
@@ -242,14 +247,14 @@ const HospitalScreen = ({ navigation }) => {
       ) : (
         <View style={tw`flex flex-row bg-[#b7d2b6] py-1 m-0.9`}>
           <AntDesign style={tw`pl-1`} name="form" size={30} color="black" />
-          <Text style={tw`pl-2 text-lg`}>Your Hospital</Text>
+          <Text style={tw`pl-2 text-lg`}>Your Added Place</Text>
         </View>
       )}
     </SafeAreaView>
   );
 };
 
-export default HospitalScreen;
+export default SearchPlaceScreen;
 
 const styles = StyleSheet.create({
   textInputStyle: {

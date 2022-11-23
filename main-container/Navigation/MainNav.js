@@ -8,7 +8,7 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import HomeScreen from "../app-screens/HomeScreen";
-import HospitalScreen from "../app-screens/HospitalScreen";
+import SearchPlaceScreen from "../app-screens/SearchPlaceScreen";
 import MessageScreen from "../app-screens/MessageScreen";
 import ProfileScreen from "../app-screens/ProfileScreen";
 import TabNav from "./TabNav";
@@ -42,10 +42,10 @@ const MainNav = () => {
         }}
       />
       <Stack.Screen
-        name="hospital"
-        component={HospitalScreen}
+        name="searchPlace"
+        component={SearchPlaceScreen}
         options={{
-          title: "Nearby Hospital",
+          title: "Nearby Place",
         }}
       />
       <Stack.Screen
