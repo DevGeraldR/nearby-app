@@ -22,15 +22,17 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 
 const SignupScreen = () => {
   const [name, setName] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [province, setProvince] = useState("");
-  const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [photo, setPhoto] = useState("");
 
   const SignupUser = () => {
+    //To not create a user if passwords don't match
+    if (password !== confirmPassword) {
+      alert("Password Don't Match");
+      return;
+    }
     //To create the new user in our firebase authentication
     //Then update the user data to save the user photoURL
     createUserWithEmailAndPassword(auth, email, password)
@@ -58,14 +60,10 @@ const SignupScreen = () => {
         });
         //To send the user information in our database
         try {
-          setDoc(doc(db, "Users", name), {
+          setDoc(doc(db, "Users", email), {
             name: name,
-            street: street,
-            city: city,
-            province: province,
-            contactNumber: contactNumber,
             email: email,
-            admin: false,
+            role: "user",
             photoURL:
               photo ||
               "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
@@ -99,32 +97,6 @@ const SignupScreen = () => {
           style={styles.inputContainer}
         />
         <TextInput
-          placeholder="Steet"
-          value={street}
-          autofocus
-          onChangeText={(text) => setStreet(text)}
-          style={styles.inputContainer}
-        />
-        <TextInput
-          placeholder="City"
-          value={city}
-          autofocus
-          onChangeText={(text) => setCity(text)}
-          style={styles.inputContainer}
-        />
-        <TextInput
-          placeholder="Province"
-          value={province}
-          onChangeText={(text) => setProvince(text)}
-          style={styles.inputContainer}
-        />
-        <TextInput
-          placeholder="Contact Number"
-          value={contactNumber}
-          onChangeText={(text) => setContactNumber(text)}
-          style={styles.inputContainer}
-        />
-        <TextInput
           placeholder="Email"
           value={email}
           onChangeText={(text) => setEmail(text)}
@@ -132,8 +104,18 @@ const SignupScreen = () => {
         />
         <TextInput
           placeholder="Password"
+          type="password"
+          secureTextEntry
           value={password}
           onChangeText={(text) => setPassword(text)}
+          style={styles.inputContainer}
+        />
+        <TextInput
+          placeholder="Confirm Password"
+          type="password"
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={(text) => setConfirmPassword(text)}
           style={styles.inputContainer}
         />
       </View>

@@ -44,20 +44,13 @@ const DATA = [
     title: "Hospital",
     image:
       "https://cdn.icon-icons.com/icons2/1465/PNG/512/588hospital_100778.png",
-    screen: "SearchHospital",
+    screen: "hospital",
   },
   {
     id: "2",
     title: "Jeepney",
     image:
       "https://toppng.com/public/uploads/thumbnail/jeep-clipart-jeepney-philippine-jeepney-clipart-side-view-11562941562xx1xd61lgj.png",
-    screen: "Home",
-  },
-  {
-    id: "3",
-    title: "Future Build",
-    image:
-      "https://cdn1.iconfinder.com/data/icons/ios-11-glyphs/30/maintenance-512.png",
     screen: "Home",
   },
 ];
@@ -191,7 +184,7 @@ const registerForPushNotificationsAsync = async (user) => {
     });
   }
 
-  const userRef = doc(db, "Users", user.displayName);
+  const userRef = doc(db, "Users", user.email);
   await updateDoc(userRef, {
     pushToken: token,
   });

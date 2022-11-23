@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import HomeScreen from "../app-screens/HomeScreen";
 import ProfileScreen from "../app-screens/ProfileScreen";
-import AdminToolsScreen from "../app-screens/AdminToolsScreen";
+import AddPlaceScreen from "../app-screens/AddPlaceScreen";
 import MessagesScreen from "../app-screens/MessagesScreen";
 import { Context } from "../context/Context";
 
@@ -51,7 +51,7 @@ const TabNav = () => {
         optioin={{ title: "Home" }}
         component={HomeScreen}
       />
-      <Tab.Screen name="Add Place" component={AdminToolsScreen} />
+      <Tab.Screen name="Add Place" component={AddPlaceScreen} />
       <Tab.Screen
         name="Messages"
         component={MessagesScreen}

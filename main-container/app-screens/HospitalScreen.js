@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,7 +30,7 @@ import { EvilIcons, AntDesign } from "@expo/vector-icons";
 
 import { StatusBar } from "expo-status-bar";
 
-const SearchHospitalScreen = ({ navigation }) => {
+const HospitalScreen = ({ navigation }) => {
   const [filteredList, setFilteredList] = useState([]);
   const [searchList, setSearchList] = useState([]);
   const [userLatitude, setUserLatitude] = useState(null);
@@ -239,26 +240,16 @@ const SearchHospitalScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={tw`justify-between`}>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("EditHospital");
-            }}
-            disabled={!selected}
-            style={tw`flex-row bg-[#b7d2b6] py-1 m-0.9 ${
-              selected ? null : "bg-gray-300"
-            }`}
-          >
-            <AntDesign style={tw`pl-1`} name="form" size={30} color="black" />
-            <Text style={tw` text-lg text-center`}>Edit My Hospital</Text>
-          </TouchableOpacity>
+        <View style={tw`flex flex-row bg-[#b7d2b6] py-1 m-0.9`}>
+          <AntDesign style={tw`pl-1`} name="form" size={30} color="black" />
+          <Text style={tw`pl-2 text-lg`}>Your Hospital</Text>
         </View>
       )}
     </SafeAreaView>
   );
 };
 
-export default SearchHospitalScreen;
+export default HospitalScreen;
 
 const styles = StyleSheet.create({
   textInputStyle: {

@@ -49,8 +49,8 @@ const MessageScreen = () => {
   //To get the room
   //If the user comes from the Messages screen the route.params.room will be use
   //Because in our Messages we have their the room that we use to display all the messages.
-  //If the user comes from the search hospital where they can start a
-  //message with the hospital the progran needs to search first the rooms to check if they
+  //If the user comes from the search place where they can start a
+  //message with the place the progran needs to search first the rooms to check if they
   //already have. It is use to redirect the user from their older message if they already have.
   const room = route.params.room
     ? route.params.room
@@ -131,12 +131,12 @@ const MessageScreen = () => {
     //To get the other user that will receive the notification, if there is no room/message
     //then the receiver will be the facility/place
     const receiver = !room ? place : getUserB(room.participants);
-    //if sending to a hospital it should be admin name but if customer it is display name
-    const receiverName = receiver.adminName
-      ? receiver.adminName
-      : receiver.displayName;
-    //To read the data of the user that match the name of the reciever
-    const docRef = doc(db, "Users", receiverName);
+    //if sending to a place it should be admin name but if customer it is email
+    const receiverEmail = receiver.adminEmail
+      ? receiver.adminEmail
+      : receiver.email;
+    //To read the data of the user that match the email of the reciever
+    const docRef = doc(db, "Users", receiverEmail);
     const docSnap = await getDoc(docRef);
     //To send the message
     const message = {

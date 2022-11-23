@@ -7,15 +7,13 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import AdminToolsScreen from "../app-screens/AdminToolsScreen";
-import AddHospitaScreen from "../app-screens/AddHospitaScreen";
-import EditHospitalScreen from "../app-screens/EditHospitalScreen";
 import HomeScreen from "../app-screens/HomeScreen";
-import SearchHospitalScreen from "../app-screens/SearchHospitalScreen";
+import HospitalScreen from "../app-screens/HospitalScreen";
 import MessageScreen from "../app-screens/MessageScreen";
 import ProfileScreen from "../app-screens/ProfileScreen";
 import TabNav from "./TabNav";
 import MessageHeader from "../components/MessageHeader";
+import AddPlaceScreen from "../app-screens/AddPlaceScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -37,27 +35,6 @@ const MainNav = () => {
         }}
       />
       <Stack.Screen
-        name="AdminTools"
-        component={AdminToolsScreen}
-        options={{
-          title: "Edit Icon",
-        }}
-      />
-      <Stack.Screen
-        name="AddHospital"
-        options={{
-          title: "Hospital Information",
-        }}
-        component={AddHospitaScreen}
-      />
-      <Stack.Screen
-        name="EditHospital"
-        component={EditHospitalScreen}
-        options={{
-          title: "Edit My Hospital",
-        }}
-      />
-      <Stack.Screen
         name="Home"
         component={HomeScreen}
         options={{
@@ -65,8 +42,8 @@ const MainNav = () => {
         }}
       />
       <Stack.Screen
-        name="SearchHospital"
-        component={SearchHospitalScreen}
+        name="hospital"
+        component={HospitalScreen}
         options={{
           title: "Nearby Hospital",
         }}
@@ -83,6 +60,13 @@ const MainNav = () => {
         options={{
           title: "Profile",
         }}
+      />
+      <Stack.Screen
+        name="addplace"
+        options={{
+          title: "Add Place",
+        }}
+        component={AddPlaceScreen}
       />
     </Stack.Navigator>
   );

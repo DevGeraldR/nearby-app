@@ -6,10 +6,10 @@
 
 import { StyleSheet, Text, View, Button } from "react-native";
 import React from "react";
-
+import * as Linking from "expo-linking";
 import { StatusBar } from "expo-status-bar";
 
-const ApplyAdminScreen = () => {
+const AddPlaceScreen = () => {
   /**
    * TODO: Apply admin screen
    */
@@ -26,14 +26,16 @@ const ApplyAdminScreen = () => {
           style={styles.button}
           color="#68bb59"
           title="Start Now"
-          onPress={() => {}}
+          onPress={() => {
+            Linking.openURL("http://devgeraldr.github.io/nearby-web-preview");
+          }}
         />
       </View>
     </View>
   );
 };
 
-export default ApplyAdminScreen;
+export default AddPlaceScreen;
 
 const styles = StyleSheet.create({
   container: {
