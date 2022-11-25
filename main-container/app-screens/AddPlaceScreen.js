@@ -8,6 +8,7 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import React from "react";
 import * as Linking from "expo-linking";
 import { StatusBar } from "expo-status-bar";
+import tw from "twrnc";
 
 const AddPlaceScreen = () => {
   /**
@@ -17,9 +18,19 @@ const AddPlaceScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
-      <View>
-        <Text>Grow your business with Nearby Ads</Text>
-        <Text>Help customers find your business</Text>
+      <View style={tw`items-center`}>
+        <Text style={tw`text-[#68bb59] text-base`}>
+          Grow your business with Nearby App
+        </Text>
+        <Text style={tw`text-[#68bb59] text-base`}>
+          Help customers find your business
+        </Text>
+        <Text
+          style={tw`m-5 text-lg text-[#f94449] border border-solid border-[#ff2c2c] border-[2px] p-3`}
+        >
+          FOR FREE
+        </Text>
+        <Text>FREE? Oo Free</Text>
       </View>
       <View>
         <Button

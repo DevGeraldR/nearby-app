@@ -38,23 +38,10 @@ const SignupScreen = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((authUser) => {
         const user = authUser.user;
-        //-----------------------------NOTE-----------------------------
-        //I use the syntax below to solve the bug that the user photo doesn't display after
-        //login in the home screen but i remove it for now since i am not displaying user
-        //photo in the hompage anymore.
-        //_____________SYNTAX_____________//
-        // user.displayName = name;
-        // user.photoURL =
-        //   photo ||
-        //   "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png";
-        //________________________________
-        //Don't delete this for future use.
-        //--------------------------------------------------------------
         updateProfile(user, {
           displayName: name,
           photoURL:
-            photo ||
-            "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
+            photo || "https://cdn.fashiola.in/images/profiel_avatar.png",
         }).catch((error) => {
           alert(error.message);
         });
@@ -65,8 +52,7 @@ const SignupScreen = () => {
             email: email,
             role: "user",
             photoURL:
-              photo ||
-              "https://w7.pngwing.com/pngs/340/946/png-transparent-avatar-user-computer-icons-software-developer-avatar-child-face-heroes-thumbnail.png",
+              photo || "https://cdn.fashiola.in/images/profiel_avatar.png",
           });
         } catch (e) {
           console.error("Error adding document: ", e);

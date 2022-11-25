@@ -103,7 +103,7 @@ const SearchPlaceScreen = ({ navigation }) => {
             { latitude: values.latitude, longitude: values.longitude }
           );
 
-          if (distance < 20000) {
+          if (distance < 5000) {
             filteredLists.push({ ...values, distance: distance });
           }
         });
