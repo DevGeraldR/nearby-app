@@ -175,7 +175,7 @@ const SearchPlaceScreen = ({ navigation }) => {
                 onPress={() => {
                   setSelected(item);
                 }}
-                style={tw`flex-row justify-between items-center pr-2 ${
+                style={tw`flex-row justify-between items-center pl-2 pr-2 pt-4 pb-4 ${
                   item.id === selected?.id ? "bg-gray-200" : " "
                 }`}
               >
@@ -183,13 +183,13 @@ const SearchPlaceScreen = ({ navigation }) => {
                   <Image
                     source={{ uri: item.photoURL }}
                     style={{
-                      width: 100,
-                      height: 100,
+                      width: 65,
+                      height: 65,
                       resizeMode: "contain",
                     }}
                   />
                 </View>
-                <View style={tw`-ml-6`}>
+                <View style={tw`-ml-6 max-w-45`}>
                   <Text style={tw`text-lg font-bold`}>{item.displayName}</Text>
                   <Text>
                     {item.street} {item.city} {item.province}
