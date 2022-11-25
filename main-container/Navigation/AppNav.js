@@ -8,13 +8,15 @@ import AuthNav from "./AuthNav";
 import { NavigationContainer } from "@react-navigation/native";
 import { auth } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Context } from "../context/Context";
 import MainNav from "./MainNav";
+import Loading from "../components/Loading";
 
 const AppNav = () => {
   const { isLoged, setIsLoged } = useContext(Context);
+  const [isLoading, setIsLoading] = useState(true);
 
   //Listen to the changes in the firebase authentication.
   //To check if a user is loged in or already loged in.
@@ -23,9 +25,14 @@ const AppNav = () => {
       if (user) {
         setIsLoged(true);
       }
+      setIsLoading(false);
     });
     return unsubscribe;
   }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <NavigationContainer>

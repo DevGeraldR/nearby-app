@@ -192,7 +192,7 @@ const SearchPlaceScreen = ({ navigation }) => {
                 <View style={tw`-ml-6 max-w-45`}>
                   <Text style={tw`text-lg font-bold`}>{item.displayName}</Text>
                   <Text>
-                    {item.street} {item.city} {item.province}
+                    {item.street}, {item.city}, {item.province}
                   </Text>
                 </View>
                 <View>

@@ -23,7 +23,7 @@ const TabNav = () => {
           let iconName;
           let rn = route.name;
           //To change the design of the icon when the user clicked it
-          if (rn === "Home") {
+          if (rn === "Nearby") {
             iconName = focused ? "home" : "home-outline";
           } else if (rn === "Add Place") {
             iconName = focused ? "add-circle" : "add-circle-outline";
@@ -46,11 +46,7 @@ const TabNav = () => {
         headerTitleAlign: "center",
       })}
     >
-      <Tab.Screen
-        name="Home"
-        optioin={{ title: "Home" }}
-        component={HomeScreen}
-      />
+      <Tab.Screen name="Nearby" component={HomeScreen} />
       <Tab.Screen name="Add Place" component={AddPlaceScreen} />
       <Tab.Screen
         name="Messages"
