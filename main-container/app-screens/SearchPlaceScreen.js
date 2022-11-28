@@ -16,7 +16,6 @@ import {
   TextInput,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
 import { FlatList } from "react-native-gesture-handler";
 import { collection, getDocs } from "firebase/firestore";
@@ -148,7 +147,7 @@ const SearchPlaceScreen = ({ navigation }) => {
    */
 
   return (
-    <SafeAreaView style={tw`bg-white flex-1`}>
+    <View style={tw`bg-white flex-1 pt-2`}>
       <StatusBar style="light" />
       <TextInput
         style={styles.textInputStyle}
@@ -250,7 +249,7 @@ const SearchPlaceScreen = ({ navigation }) => {
           <Text style={tw`pl-2 text-lg`}>Your Added Place</Text>
         </View>
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 

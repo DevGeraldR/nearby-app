@@ -6,8 +6,14 @@
  * It also register the user for push notication
  */
 
-import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, Image, TouchableOpacity, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  FlatList,
+  StyleSheet,
+} from "react-native";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 
@@ -26,6 +32,9 @@ import React, { useContext, useEffect, Platform, useRef } from "react";
 import * as Notifications from "expo-notifications";
 
 import { StatusBar } from "expo-status-bar";
+import { TextInput } from "react-native-gesture-handler";
+import { useState } from "react";
+import { Button } from "@rneui/base";
 
 //Use for notication when app is foregrounded
 Notifications.setNotificationHandler({
@@ -193,6 +202,30 @@ const HomeScreen = () => {
     setBadgeCounter(counter);
   }, [rooms]);
 
+  const [searchList, setSearchList] = useState([]);
+  const [search, setSearch] = useState("");
+
+  //Use when the user search a place to the search bar
+  //The user so far can search the name of a place or a address.
+  const searchFilterFunction = (text) => {
+    if (text) {
+      let newData = [];
+      DATA.map((item) => {
+        item.places.map((place) => {
+          const itemData = place.title ? place.title : "";
+          if (itemData.indexOf(text) > -1) {
+            newData.push(place);
+          }
+        });
+      });
+      setSearchList(newData);
+      setSearch(text);
+    } else {
+      setSearchList([]);
+      setSearch(text);
+    }
+  };
+
   /**
    * This return the UI
    * Where the icons were display and navigate the user to
@@ -200,15 +233,58 @@ const HomeScreen = () => {
    */
 
   return (
-    <SafeAreaView>
+    <View style={{ flex: 1 }}>
       <StatusBar style="light" />
-      <View>
+      <View style={tw`flex-row mt-2`}>
+        <TextInput
+          style={styles.textInputStyle}
+          onChangeText={(text) => {
+            searchFilterFunction(text);
+          }}
+          value={search}
+          underlineColorAndroid="transparent"
+          placeholder="Search Here"
+        />
+        {search && (
+          <Button color="#68bb59" onPress={() => setSearch("")}>
+            clear
+          </Button>
+        )}
+      </View>
+      {search ? (
+        <FlatList
+          data={searchList}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("searchPlace", item.title);
+              }}
+              style={tw`bg-[#ddead1] m-1`}
+            >
+              <View style={tw`flex-row`}>
+                <Image
+                  source={{ uri: item.image }}
+                  style={{
+                    width: 60,
+                    height: 60,
+                    resizeMode: "contain",
+                  }}
+                />
+                <Text style={tw`pl-2 text-lg font-semibold self-center`}>
+                  {item.title}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      ) : (
         <FlatList
           data={DATA}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <View style={tw`pb-5`}>
-              <Text style={tw`pl-2`}>{item.title}</Text>
+            <View>
+              <Text style={tw`pl-2 pt-2`}>{item.title}</Text>
               <FlatList
                 data={item.places}
                 horizontal
@@ -239,8 +315,8 @@ const HomeScreen = () => {
             </View>
           )}
         />
-      </View>
-    </SafeAreaView>
+      )}
+    </View>
   );
 };
 
@@ -279,3 +355,14 @@ const registerForPushNotificationsAsync = async (user) => {
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  textInputStyle: {
+    height: 39.5,
+    flex: 1,
+    borderWidth: 1,
+    paddingLeft: 20,
+    marginHorizontal: 1,
+    borderColor: "#68bb59",
+  },
+});
